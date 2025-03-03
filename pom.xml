@@ -2,27 +2,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Gruppendaten und Version dieses Projekts -->
     <groupId>com.example</groupId>
     <artifactId>restaurant</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>pom</packaging>  <!-- WICHTIG bei einem Parent-POM -->
 
-    <modules>
-        <module>orders-service</module>
-        <module>inventory-service</module>
-    </modules>
-
+    <!-- Globale Properties, die alle Submodule erben -->
     <properties>
-        <quarkus.platform.version>3.x.x</quarkus.platform.version>
+        <!-- Quarkus-Version einmal festlegen, z.B. 3.2.4.Final -->
+        <quarkus.platform.version>3.2.4.Final</quarkus.platform.version>
+        <!-- Quarkus Maven Plugin hat dieselbe Version wie Quarkus selbst -->
         <quarkus.plugin.version>${quarkus.platform.version}</quarkus.plugin.version>
+
+        <!-- Versionen externer Plugins -->
+        <compiler-plugin.version>3.10.1</compiler-plugin.version>
+        <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+
+        <!-- Optional: Java-Version, die du kompilieren willst -->
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <!-- Quarkus BOM importieren, damit Submodule die Abhängigkeiten ohne Version angeben können -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -35,14 +41,9 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <!-- Damit du Submodule bequem baust -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
-            </plugin>
-        </plugins>
-    </build>
+    <!-- Unsere Submodule -->
+    <modules>
+        <module>orders-service</module>
+        <module>inventory-service</module>
+    </modules>
 </project>
