@@ -87,3 +87,14 @@ docker-compose up --build
 - inventory-service (Port 8081 -> Host: 8081)
 ### Achtung:
 Innerhalb des Docker-Netzwerks erreichst du Kafka unter kafka:9092 und Postgres unter postgres:5432. Diese URLs werden per Umgebungsvariablen an die Services übergeben (siehe docker-compose.yml).
+
+5. **Testen der Applikation**
+- Sende einen REST-POST an den ``orders-service``:
+```bash
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{"product":"Laptop", "quantity":2}' \
+     http://localhost:8080/orders
+```
+- Überprüfe in den Logs von orders-service und inventory-service, ob die Nachricht korrekt verarbeitet wird.
+- Optional: Überprüfe in der Postgres-Datenbank, ob die Bestellung gespeichert wurde.
