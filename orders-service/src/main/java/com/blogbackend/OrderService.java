@@ -2,6 +2,7 @@ package com.blogbackend;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 
@@ -10,16 +11,15 @@ public class OrderService {
 
     @Inject
     @Channel("orders-out")
-    Emitter<String> ordersEmitter; // Zum Senden an Topic "orders"
+    Emitter<String> ordersEmitter;
 
+    @Transactional
     public void processOrder(OrderRequest request) {
-        // 1) In DB speichern
         OrderEntity entity = new OrderEntity();
         entity.product = request.product;
         entity.quantity = request.quantity;
-        entity.persist();  // Panache: speichert direkt in DB
+        entity.persist();
 
-        // 2) Kafka-Nachricht an Topic "orders" senden
         String message = "New order ID=" + entity.id
                 + " (product=" + entity.product + ", quantity=" + entity.quantity + ")";
         ordersEmitter.send(message);

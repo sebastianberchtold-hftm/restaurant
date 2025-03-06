@@ -13,11 +13,6 @@ public class InventoryService {
     @Channel("inventory-out")
     Emitter<String> inventoryEmitter;
 
-    /**
-     * Konsumiert Nachrichten vom Kafka-Topic "orders".
-     * Die Konfiguration dafür steht in application.properties
-     * via mp.messaging.incoming.orders-in...
-     */
     @Incoming("orders-in")
     public void onOrderReceived(String orderMessage) {
         System.out.println("Received order: " + orderMessage);

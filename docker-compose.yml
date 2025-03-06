@@ -15,7 +15,7 @@ services:
       - '9092:9092'
     environment:
       - KAFKA_BROKER_ID=1
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
@@ -34,7 +34,8 @@ services:
 
   # Quarkus Service 1
   orders-service:
-    image: ghcr.io/sebastianberchtold-hftm/orders-service:1.0.0
+    # Falls du dein Image "orders-service:1.0.0" nennst:
+    image: orders-service:1.0.0
     container_name: orders-service
     depends_on:
       - kafka
@@ -43,13 +44,14 @@ services:
       QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/ordersdb
       QUARKUS_DATASOURCE_USERNAME: postgres
       QUARKUS_DATASOURCE_PASSWORD: postgres
+      # Im Docker-Netzwerk spricht man Kafka unter "kafka:9092" an
       MP_MESSAGING_OUTGOING_ORDERS_OUT_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8080:8080"
 
-    # Quarkus Service 2 - inventory-service
+  # Quarkus Service 2
   inventory-service:
-    image: ghcr.io/sebastianberchtold-hftm/inventory-service:1.0.0
+    image: inventory-service:1.0.0
     container_name: inventory-service
     depends_on:
       - kafka
