@@ -221,7 +221,7 @@ Dieses Kapitel beschreibt die zentralen Anwendungsfälle der Lösung und erklär
 ```bash
 docker pull ghcr.io/sebastianberchtold-hftm/orders-service:1.0.0
 ```
-ausführen und mit docker inspect den Digest vergleichen.
+   ausführen und mit docker inspect den Digest vergleichen.
 ---
 ## 7. Lizenz/ Sonstiges
 Dieses Projekt ist ein Demoprojekt zum Thema „Messaging and Streaming mit Quarkus“. Der Code kann nach Bedarf erweitert und angepasst werden.
