@@ -195,13 +195,23 @@ Dieses Kapitel beschreibt die zentralen Anwendungsfälle der Lösung und erklär
 
 ---
 
- 7. Deployment in GHCR
+## 5. Docker Compose intern
+- **zookeeper:** Container Name: zookeeper, Port: 2181.
+- **kafka:** Container Name: kafka, Port: 9092.
+- **postgres:** Container Name: postgres, Port: 5432.
+- **orders-service:** Läuft auf Port 8080 (Host-Port 8080).
+- **inventory-service:** Läuft auf Port 8081 (Host-Port 8081).
+
+  **Achtung**:
+  Innerhalb des Docker-Netzwerks erreichst du Kafka über kafka:9092 und Postgres über postgres:5432. Diese Informationen werden per Umgebungsvariablen an die Services übergeben.
+
+ ## 6. Deployment in GitHub Container Registry (GHCR) und Aktualitätsprüfung
 
 - **Deployment:**
     Die Docker-Images wurden in die GHCR gepusht. Die Docker Compose File verweist auf:
 
-    - ghcr.io/sebastianberchtold-hftm/orders-service:1.0.0
-    - ghcr.io/sebastianberchtold-hftm/inventory-service:1.0.0
+    - ``ghcr.io/sebastianberchtold-hftm/orders-service:1.0.0``
+    - ``ghcr.io/sebastianberchtold-hftm/inventory-service:1.0.0``
 - **Aktualitätsprüfung:**
     Um sicherzustellen, dass die neuesten Images vorliegen, kannst du:
 
@@ -212,6 +222,9 @@ Dieses Kapitel beschreibt die zentralen Anwendungsfälle der Lösung und erklär
 docker pull ghcr.io/sebastianberchtold-hftm/orders-service:1.0.0
 ```
 ausführen und mit docker inspect den Digest vergleichen.
+---
+## 7. Lizenz/ Sonstiges
+Dieses Projekt ist ein Demoprojekt zum Thema „Messaging and Streaming mit Quarkus“. Der Code kann nach Bedarf erweitert und angepasst werden.
 
 ### Zusammenfassung
 
