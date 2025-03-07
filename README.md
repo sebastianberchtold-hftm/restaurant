@@ -6,18 +6,17 @@ In diesem Projekt findest du zwei Quarkus-Services, die über Kafka-Topics kommu
 1. [Überblick](#überblick)
 2. [Voraussetzungen](#voraussetzungen)
 3. [Lokaler Build & Start](#lokaler-build--start)
-    - [Schritt-für-Schritt](#schritt-für-schritt)
-4. [Wichtigste Anwendungsfälle](#wichtigste-anwendungsfälle)
-    - [orders-service](#orders-service)
-    - [inventory-service](#inventory-service)
+   - [Schritt-für-Schritt-Anleitung](#schritt-für-schritt-anleitung)
+4. [Wichtigste Anwendungsfälle und Testanleitung](#wichtigste-anwendungsfälle-und-testanleitung)
+   - [Anwendungsfälle](#anwendungsfälle)
+   - [Testanleitung](#testanleitung)
 5. [Docker Compose intern](#docker-compose-intern)
-6. [Deployment in GitHub Container Registry (GHCR)](#deployment-in-github-container-registry-ghcr)
-7. []
-8. [Lizenz / Sonstiges](#lizenz--sonstiges)
+6. [Deployment in GitHub Container Registry (GHCR) und Aktualitätsprüfung](#deployment-in-github-container-registry-ghcr-und-aktualitätsprüfung)
+7. [Lizenz / Sonstiges](#lizenz--sonstiges)
 
 ---
 
-## Überblick
+## 1. Überblick
 
 - **orders-service**
     - Bietet einen REST-Endpunkt `/orders` (Port 8080) an.
@@ -35,7 +34,7 @@ Ziel ist es, das Zusammenspiel von **Quarkus**, **Kafka** und einer **Datenbank*
 
 ---
 
-## Voraussetzungen
+## 2. Voraussetzungen
 
 - **Docker** und **Docker Compose** (Version 1.29 oder höher)
 - (Optional) **Maven** und **Java 17** (falls du das Projekt lokal kompilieren möchtest; sonst reicht Docker Compose aus)
@@ -45,23 +44,23 @@ Ziel ist es, das Zusammenspiel von **Quarkus**, **Kafka** und einer **Datenbank*
 
 ---
 
-## Lokaler Build & Start
+## 3. Lokaler Build & Start
 
 ### Schritt-für-Schritt
 
-## 1. **Repository klonen**:
+ 1. **Repository klonen**:
    ```bash
    git clone <URL-zu-deinem-GitRepo> restaurant
    cd restaurant
-    ```
+   ```
    
-## 2. **Maven Build** nur nötig, wenn du Code geändert hast oder die JARs neu bauen willst: 
+ 2. **Maven Build** nur nötig, wenn du Code geändert hast oder die JARs neu bauen willst: 
    ```bash
    mvn clean package -DskipTests
    ```
 Dies kompiliert beide Submodule (`orders-service`, `inventory-service`) und legt die Artefakte im jeweiligen `target`/-Ordner ab.
 
-## 3. **Docker-Images bauen** (manuell, falls du nicht mit Quarkus-Plugins arbeitest):
+ 3. **Docker-Images bauen** (manuell, falls du nicht mit Quarkus-Plugins arbeitest):
 ```bash
 # 1) orders-service
 cd orders-service
@@ -75,7 +74,7 @@ docker build -f src/main/docker/Dockerfile.jvm -t inventory-service:1.0.0 .
 cd ..
 ```
 
-## 4. **Docker Compose starten:**
+ 4. **Docker Compose starten:**
 ```bash
 docker-compose up --build
 ```
@@ -89,7 +88,7 @@ docker-compose up --build
 ### Achtung:
 Innerhalb des Docker-Netzwerks erreichst du Kafka unter kafka:9092 und Postgres unter postgres:5432. Diese URLs werden per Umgebungsvariablen an die Services übergeben (siehe docker-compose.yml).
 
-## 5. **Testen der Applikation**
+ 5. **Testen der Applikation**
 - Sende einen REST-POST an den ``orders-service``:
 ```bash
 curl -X POST \
@@ -98,11 +97,11 @@ curl -X POST \
      http://localhost:8080/orders
 ```
 
-## 6. Wichtigste Anwendungsfälle und Testanleitung
+## 4. Wichtigste Anwendungsfälle und Testanleitung
 
 Dieses Kapitel beschreibt die zentralen Anwendungsfälle der Lösung und erklärt, wie du sie testen kannst.
 
-### 6.1 Anwendungsfälle
+ ### 4.1 Anwendungsfälle
 
 1. **Bestellung erfassen (orders-service)**
    - **Beschreibung:**  
@@ -196,7 +195,7 @@ Dieses Kapitel beschreibt die zentralen Anwendungsfälle der Lösung und erklär
 
 ---
 
-## 7. Deployment in GHCR
+ 7. Deployment in GHCR
 
 - **Deployment:**
     Die Docker-Images wurden in die GHCR gepusht. Die Docker Compose File verweist auf:
