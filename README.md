@@ -3,6 +3,7 @@
 In diesem Projekt findest du zwei Quarkus-Services, die über Kafka-Topics kommunizieren. Einer der Services bindet eine PostgreSQL-Datenbank an. Außerdem kannst du alles per Docker Compose starten und optional in die GitHub Container Registry (GHCR) pushen.
 
 ## Inhalt
+
 1. [Überblick](#überblick)
 2. [Voraussetzungen](#voraussetzungen)
 3. [Lokaler Build & Start](#lokaler-build--start)
