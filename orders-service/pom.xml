@@ -16,8 +16,6 @@
     <artifactId>orders-service</artifactId>
     <packaging>jar</packaging>
 
-    <!-- Submodule braucht normalerweise KEIN eigenes <dependencyManagement>.
-         Wir holen Versionsangaben aus dem Parent. -->
     <dependencies>
         <!-- Quarkus Dependencies (Version kommt über BOM aus dem Parent) -->
         <dependency>
@@ -28,6 +26,11 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-graphql</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache</artifactId>

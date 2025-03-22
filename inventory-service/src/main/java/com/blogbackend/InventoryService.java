@@ -17,8 +17,7 @@ public class InventoryService {
     public void onOrderReceived(String orderMessage) {
         System.out.println("Received order: " + orderMessage);
 
-        // Hier könnte man z.B. den Lagerbestand prüfen oder in einer DB schauen
-        // Wir senden anschließend eine Nachricht zurück aufs Topic "inventory"
+
         String response = "Inventory updated for order: " + orderMessage;
         inventoryEmitter.send(response);
 
