@@ -29,13 +29,11 @@ public class OrderGraphQLResource {
         return OrderEntity.listAll();
     }
 
-    // Query: Liefert eine einzelne Order anhand der ID
     @Query
     public OrderEntity order(Long id) {
         return OrderEntity.findById(id);
     }
 
-    // Mutation: Erstellt eine neue Order
     @Mutation
     @Transactional
     public OrderEntity createOrder(String product, int quantity) {
@@ -44,7 +42,6 @@ public class OrderGraphQLResource {
         order.quantity = quantity;
         order.persist();
 
-        // Sende die Nachricht nur, wenn der Kafka-Emitter vorhanden ist
         if (orderService.ordersEmitter != null) {
             orderService.ordersEmitter.send("New order ID=" + order.id
                     + " (product=" + product + ", quantity=" + quantity + ")");
