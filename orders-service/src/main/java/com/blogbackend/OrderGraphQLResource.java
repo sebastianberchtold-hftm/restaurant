@@ -1,12 +1,14 @@
 package com.blogbackend;
 
 import io.smallrye.graphql.api.Subscription;
+import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.graphql.GraphQLApi;
 import org.eclipse.microprofile.graphql.Mutation;
 import org.eclipse.microprofile.graphql.Query;
+import org.eclipse.microprofile.reactive.messaging.Channel;
 
 import java.util.List;
 import java.util.concurrent.Flow;
@@ -17,6 +19,10 @@ public class OrderGraphQLResource {
 
     @Inject
     OrderService orderService;
+
+    @Inject
+    @Channel("inventory-in")
+    Multi<String> orderUpdates;
 
     @Query
     public List<OrderEntity> orders() {
@@ -50,8 +56,7 @@ public class OrderGraphQLResource {
     }
 
     @Subscription
-    public Flow.Publisher<String> orderUpdates() {
-        // Hier könnte ein Publisher eingebunden werden, der Updates aus Kafka oder einem internen Update-Mechanismus liefert.
-        return null;
+    public Multi<String> orderUpdates() {
+        return orderUpdates;
     }
 }
