@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Docke CI Pipeline
 
 on:
   push:

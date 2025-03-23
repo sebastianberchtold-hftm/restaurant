@@ -9,22 +9,29 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Compose
-        uses: docker/compose-action@v2
-        with:
-          files: docker-compose.yml
+      # Set up Docker Buildx (for multi-platform builds, if needed)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
+      # Build and start services with Docker Compose
       - name: Build and start services
-        run: docker-compose up -d --build
+        run: |
+          docker-compose -f docker-compose.yml up -d --build
 
-      - name: Run tests
+      # Run tests
+      - name: Run tests for orders-service
         run: |
           docker-compose exec orders-service mvn test
+
+      - name: Run tests for inventory-service
+        run: |
           docker-compose exec inventory-service mvn test
 
+      # Tear down services
       - name: Tear down services
         run: docker-compose down
