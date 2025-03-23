@@ -1,0 +1,30 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        uses: docker/compose-action@v2
+        with:
+          files: docker-compose.yml
+
+      - name: Build and start services
+        run: docker-compose up -d --build
+
+      - name: Run tests
+        run: |
+          docker-compose exec orders-service mvn test
+          docker-compose exec inventory-service mvn test
+
+      - name: Tear down services
+        run: docker-compose down
